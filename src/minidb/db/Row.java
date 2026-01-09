@@ -1,40 +1,28 @@
 package minidb.db;
 
 public class Row {
-    private Object[] values;
-    private Schema schema;
+    private final Object[] values;
 
-    public Row(Schema schema, Object[] values){
+    public Row(Object[] values){
+        if(values == null){
+            throw new IllegalArgumentException("Rows can't be null");
+        }
+        // so there is no direct access to values
         this.values = new Object[values.length];
-        if( schema == null){
-            throw new IllegalArgumentException("Schema can't be null");
+        for(int i = 0; i< values.length; i++){
+            this.values[i] = values[i];
         }
-        if(values == null || values.length == 0){
-            throw new IllegalArgumentException("Rows must have values");
-        }
-        if(schema.getSize()!=values.length){
-            throw new IllegalArgumentException("Number of values must match the schema");
-        }
-
-        for(int i = 0; i<values.length; i++){
-            if(schema.getColumn(i).getType().accepts(values[i])){
-                this.values[i] = values[i];
-            } else {
-                throw new IllegalArgumentException("Value at index "+i+" doesn't match the schema type");
-            }
-        }
-        this.schema = schema;
     }
 
-    public Schema getSchema(){
-        return schema;
+    public Object getValue(int idx){
+        if (idx<0 || idx>=values.length){
+            throw new IndexOutOfBoundsException("Index " + idx + " out of bounds for row size " +
+                   values.length);
+        }
+        return values[idx];
     }
 
-    public Object getValue(int index){
-        return values[index];
-    }
-
-    public Object getValue(String columnName){
-        return values[schema.getIndex(columnName)];
+    public int getSize(){
+        return values.length;
     }
 }
