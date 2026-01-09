@@ -8,10 +8,7 @@ public class Row {
             throw new IllegalArgumentException("Rows can't be null");
         }
         // so there is no direct access to values
-        this.values = new Object[values.length];
-        for(int i = 0; i< values.length; i++){
-            this.values[i] = values[i];
-        }
+        this.values = values.clone();
     }
 
     public Object getValue(int idx){
