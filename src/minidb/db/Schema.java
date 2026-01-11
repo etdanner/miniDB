@@ -5,7 +5,6 @@ import java.util.Map;
 public class Schema {
     private final Column[] columns;
     private final Map<String, Integer> nameToIndex;
-    private int size = 0;
 
     public Schema(Column[] columns) {
         if (columns == null || columns.length == 0) {
@@ -32,16 +31,19 @@ public class Schema {
 
             this.columns[i] = c;
             this.nameToIndex.put(name, i);
-            this.size++;
         }
     }
 
     public int getSize(){
-        return size;
+        return columns.length;
     }
 
     public int getIndex(String name){
-        return nameToIndex.get(name);
+        Integer idx = nameToIndex.get(name);
+        if (idx==null){
+            throw new IllegalArgumentException("Unknown column: " + name);
+        }
+        return idx;
     }
 
     public Column getColumn(int index){
