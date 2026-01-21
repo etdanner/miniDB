@@ -4,9 +4,7 @@ public class Row {
     private final Object[] values;
 
     public Row(Object[] values){
-        if(values == null){
-            throw new IllegalArgumentException("Rows can't be null");
-        }
+        if(values == null) throw new IllegalArgumentException("Rows can't be null");
         // so there is no direct access to values
         this.values = values.clone();
     }

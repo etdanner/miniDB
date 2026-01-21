@@ -7,27 +7,22 @@ public class Schema {
     private final Map<String, Integer> nameToIndex;
 
     public Schema(Column[] columns) {
-        if (columns == null || columns.length == 0) {
+        if (columns == null || columns.length == 0)
             throw new IllegalArgumentException("Schema must have at least one column");
-        }
 
         this.columns = new Column[columns.length];
         this.nameToIndex = new HashMap<>();
 
         for (int i = 0; i < columns.length; i++) {
             Column c = columns[i];
-            if (c == null) {
-                throw new IllegalArgumentException("Column at index " + i + " is null");
-            }
+            if (c == null) throw new IllegalArgumentException("Column at index " + i + " is null");
 
             String name = c.getName();
-            if (name == null) {
+            if (name == null)
                 throw new IllegalArgumentException("Column name at index " + i + " is null");
-            }
 
-            if (nameToIndex.containsKey(name)) {
+            if (nameToIndex.containsKey(name))
                 throw new IllegalArgumentException("Duplicate column name: " + name);
-            }
 
             this.columns[i] = c;
             this.nameToIndex.put(name, i);
@@ -40,9 +35,7 @@ public class Schema {
 
     public int getIndex(String name){
         Integer idx = nameToIndex.get(name);
-        if (idx==null){
-            throw new IllegalArgumentException("Unknown column: " + name);
-        }
+        if (idx==null) throw new IllegalArgumentException("Unknown column: " + name);
         return idx;
     }
 
